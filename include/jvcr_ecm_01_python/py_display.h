@@ -11,5 +11,6 @@ PyObject *jvcr_pset(PyObject *self, PyObject *args);
 PyObject *jvcr_rectfill(PyObject *self, PyObject *args);
 PyObject *jvcr_line(PyObject *self, PyObject *args);
 PyObject *jvcr_spr(PyObject *self, PyObject *args);
+PyObject *jvcr_set_pallet(PyObject *self, PyObject *args);
 
 #endif //PROJECT_PY_DISPLAY_H

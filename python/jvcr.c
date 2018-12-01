@@ -18,6 +18,7 @@ static PyMethodDef JvcrMethods[] = {
     {"btn", jvcr_btn, METH_VARARGS, NULL},
     {"spr", jvcr_spr, METH_VARARGS, NULL},
     {"import_sprites", jvcr_import_sprites, METH_VARARGS, NULL},
+    {"set_pallet", jvcr_set_pallet, METH_VARARGS, NULL},
     {NULL, NULL, 0, NULL}
 };
 
