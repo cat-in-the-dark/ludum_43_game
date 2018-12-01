@@ -21,6 +21,8 @@ file(GLOB_RECURSE SOURCES ${PROJECT_SOURCES_DIR}/*.c)
 file(GLOB_RECURSE PY_SOURCES ${PY_PROJECT_SOURCES_DIR}/*.c)
 file(GLOB_RECURSE TEST_SOURCES ${TEST_SOURCES_DIR}/*.cpp)
 
+file(COPY game/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/python/)
+
 include_directories(${PROJECT_HEADERS_DIR})
 include_directories(${OPENGL_INCLUDE_DIR})
 include_directories(${PNG_INCLUDE_DIR})
