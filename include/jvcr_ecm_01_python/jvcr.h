@@ -7,6 +7,6 @@
 Jvcr *machine;
 
 PyObject* PyInit_jvcr(void);
-void RunMachine(void (*update)(Jvcr *, double));
+void RunMachine(void (*update)(Jvcr *, double), void (*pFunction)(Jvcr *));
 
 #endif //PROJECT_JVCR_H

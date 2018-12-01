@@ -3,6 +3,7 @@
 #include <jvcr_ecm_01/input.h>
 #include <Python.h>
 #include <jvcr_ecm_01_python/jvcr.h>
+#include <jvcr_ecm_01_python/py_display.h>
 
 PyObject *jvcr_cls(PyObject *self, PyObject *args) {
   byte color;
@@ -63,5 +64,40 @@ PyObject *jvcr_line(PyObject *self, PyObject *args) {
   byte color;
   PyArg_ParseTuple(args, "ffffB", &x0, &y0, &x1, &y1, &color);
   line(machine, (i32) x0, (i32) y0, (i32) x1, (i32) y1, color);
+  Py_RETURN_NONE;
+}
+PyObject *jvcr_spr(PyObject *self, PyObject *args) {
+  float screen_x;
+  float screen_y;
+  float sheet_x;
+  float sheet_y;
+  float width;
+  float height;
+  byte flip;
+  byte rotate;
+  byte scale;
+
+  PyArg_ParseTuple(args, "ffffffBBB",
+                   &screen_x,
+                   &screen_y,
+                   &sheet_x,
+                   &sheet_y,
+                   &width,
+                   &height,
+                   &flip,
+                   &rotate,
+                   &scale
+  );
+  spr(machine,
+      (i32) screen_x,
+      (i32) screen_y,
+      (i32) sheet_x,
+      (i32) sheet_y,
+      (u32) width,
+      (u32) height,
+      flip,
+      rotate,
+      scale
+  );
   Py_RETURN_NONE;
 }

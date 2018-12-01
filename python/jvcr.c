@@ -4,6 +4,7 @@
 #include <jvcr_ecm_01_python/jvcr.h>
 #include <jvcr_ecm_01_python/py_display.h>
 #include <jvcr_ecm_01_python/py_input.h>
+#include <jvcr_ecm_01_python/py_import_sprites.h>
 
 static PyMethodDef JvcrMethods[] = {
     {"cls", jvcr_cls, METH_VARARGS, NULL},
@@ -15,6 +16,8 @@ static PyMethodDef JvcrMethods[] = {
     {"rectfill", jvcr_rectfill, METH_VARARGS, NULL},
     {"line", jvcr_line, METH_VARARGS, NULL},
     {"btn", jvcr_btn, METH_VARARGS, NULL},
+    {"spr", jvcr_spr, METH_VARARGS, NULL},
+    {"import_sprites", jvcr_import_sprites, METH_VARARGS, NULL},
     {NULL, NULL, 0, NULL}
 };
 
@@ -39,13 +42,14 @@ PyObject *PyInit_jvcr(void) {
   return module;
 }
 
-void RunMachine(void (*update)(Jvcr *, double)) {
+void RunMachine(void (*update)(Jvcr *, double), void (*init)(Jvcr *)) {
   machine = NewJvcr();
   machine->onDraw = update;
   set_default_pallet(machine);
   set_default_font(machine);
   rendering_init(machine);
   input_init(machine);
+  init(machine);
   RunLoop(machine);
   rendering_stop(machine);
   DestroyJvcr(machine);

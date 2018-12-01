@@ -5,12 +5,22 @@
 #include <jvcr_ecm_01_python/jvcr.h>
 
 static PyObject *updateFunc;
+static PyObject *initFunc;
 
 static void update(Jvcr *machine, double delta) {
   PyObject* args = PyTuple_New(1);
   PyObject* value = PyFloat_FromDouble(delta);
   PyTuple_SetItem(args, 0, value);
   PyObject_CallObject(updateFunc, args);
+  if (PyErr_Occurred()) PyErr_Print();
+}
+
+static void init(Jvcr *machine) {
+  if (!initFunc) {
+    printf("WARNING. There is no init function\n");
+    return;
+  }
+  PyObject_CallObject(initFunc, NULL);
   if (PyErr_Occurred()) PyErr_Print();
 }
 
@@ -46,8 +56,15 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
+  initFunc = PyObject_GetAttrString(pModule, "init");
+  if (!initFunc || !PyCallable_Check(initFunc)) {
+    if (PyErr_Occurred()) PyErr_Print();
+    fprintf(stderr, "Cannot find function 'init'\n");
+    initFunc = NULL;
+//    return 1;
+  }
 
-  RunMachine(&update);
+  RunMachine(&update, &init);
 
   Py_XDECREF(updateFunc);
   Py_DECREF(pModule);
