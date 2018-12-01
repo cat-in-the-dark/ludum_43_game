@@ -11,14 +11,14 @@ static void fill_4bit(Jvcr *machine, const png_byte *row, u32 x, u32 y) {
   byte low = (byte) (pyxel & 0x0F);
   byte high = (byte) ((pyxel >> 4) & 0x0F);
 
-  printf("%2d %2d ", high, low);
+//  printf("%2d %2d ", high, low);
   jvcr_poke_sprite(machine->ram, 2 * x, y, high);
   jvcr_poke_sprite(machine->ram, 2 * x + 1, y, low);
 }
 
 static void fill_8bit(Jvcr *machine, const png_byte *row, u32 x, u32 y) {
   png_byte pyxel = row[x];
-  printf("%2d ", pyxel);
+//  printf("%2d ", pyxel);
   jvcr_poke_sprite(machine->ram, x, y, pyxel);
 }
 
@@ -85,15 +85,12 @@ void import_sprites(Jvcr *machine, const char *path, ptr_t offset) {
   }
   png_read_image(png, row_pointers);
 
-  printf("\n======================\n");
   for (u32 y = 0; y < height; y++) {
     png_bytep row = row_pointers[y];
     for (u32 x = 0; x < row_size; x++) {
       filler(machine, row, x, y);
     }
-    printf("\n");
   }
-  printf("======================\n");
 
   printf("SUCCESS. File was read %s\n", path);
   for (png_uint_32 y = 0; y < height; y++) {
