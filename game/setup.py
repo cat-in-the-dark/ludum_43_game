@@ -19,3 +19,7 @@ def setup_palette():
     jvcr.set_pallet(14, 254, 181, 139)
     jvcr.set_pallet(15, 87, 197, 43)
     jvcr.set_pallet(16, 255, 253, 240)
+
+
+def setup_sprites():
+    jvcr.import_sprites("assets/background1.png", 0)
