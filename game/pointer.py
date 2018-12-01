@@ -16,10 +16,10 @@ class Pointer:
         self.timer = 0.0
         self.timer_dir = 1
 
-        self.MIN_LEFT = 0
-        self.MAX_RIGHT = jvcr.DISPLAY_WIDTH - self.width
-        self.MIN_TOP = 0
-        self.MAX_BOTTOM = jvcr.DISPLAY_HEIGHT - self.height
+        self.MIN_LEFT = 48
+        self.MAX_RIGHT = jvcr.DISPLAY_WIDTH - self.width - 16
+        self.MIN_TOP = 16
+        self.MAX_BOTTOM = jvcr.DISPLAY_HEIGHT - self.height - 16
 
     def update(self, dt):
         self.timer += dt * self.timer_dir
