@@ -1,4 +1,6 @@
-all: build-python exec-python
+all: build-python exec-game
+
+python-example: build-python exec-python
 
 example: build-example exec-example
 
@@ -19,6 +21,9 @@ build-test: reload
 
 exec-python:
 	./cmake-build-debug/python/JVCR-ECM-01-PYTHON ./python/examples/
+
+exec-game:
+	./cmake-build-debug/python/JVCR-ECM-01-PYTHON ./game/
 
 exec-example:
 	./cmake-build-debug/example/JVCR-ECM-01-EXAMPLE
