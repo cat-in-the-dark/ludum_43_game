@@ -4,6 +4,24 @@
 #include <stdlib.h>
 #include <jvcr_ecm_01/ram.h>
 
+typedef void (*Filler)(Jvcr *, const png_byte *, u32, u32);
+
+static void fill_4bit(Jvcr *machine, const png_byte *row, u32 x, u32 y) {
+  png_byte pyxel = row[x];
+  byte low = (byte) (pyxel & 0x0F);
+  byte high = (byte) ((pyxel >> 4) & 0x0F);
+
+  printf("%2d %2d ", high, low);
+  jvcr_poke_sprite(machine->ram, 2 * x, y, high);
+  jvcr_poke_sprite(machine->ram, 2 * x + 1, y, low);
+}
+
+static void fill_8bit(Jvcr *machine, const png_byte *row, u32 x, u32 y) {
+  png_byte pyxel = row[x];
+  printf("%2d ", pyxel);
+  jvcr_poke_sprite(machine->ram, x, y, pyxel);
+}
+
 void import_sprites(Jvcr *machine, const char *path, ptr_t offset) {
   FILE *file = fopen(path, "rb");
   if (file == NULL) {
@@ -34,8 +52,8 @@ void import_sprites(Jvcr *machine, const char *path, ptr_t offset) {
   png_set_sig_bytes(png, 8);
   png_read_info(png, info);
 
-  png_uint_32 width = png_get_image_width(png, info);
-  png_uint_32 height = png_get_image_height(png, info);
+  unsigned long width = png_get_image_width(png, info);
+  unsigned long height = png_get_image_height(png, info);
   png_byte color_type = png_get_color_type(png, info);
   png_byte bit_depth = png_get_bit_depth(png, info);
 
@@ -46,8 +64,13 @@ void import_sprites(Jvcr *machine, const char *path, ptr_t offset) {
     exit(-1);
   }
 
-  if (bit_depth != 4) {
-    printf("Image should be with bit_depth=4\n");
+  Filler filler;
+  if (bit_depth == 4) {
+    filler = &fill_4bit;
+  } else if (bit_depth == 8) {
+    filler = &fill_8bit;
+  } else {
+    printf("Image should be with bit_depth=4 or 8\n");
     exit(-1);
   }
 
@@ -63,18 +86,10 @@ void import_sprites(Jvcr *machine, const char *path, ptr_t offset) {
   png_read_image(png, row_pointers);
 
   printf("\n======================\n");
-  byte palette[256];
-  for (int i = 0; i < 256; i++) palette[i] = 255;
   for (u32 y = 0; y < height; y++) {
     png_bytep row = row_pointers[y];
     for (u32 x = 0; x < row_size; x++) {
-      png_byte pyxel = row[x];
-      byte low = (byte)(pyxel & 0x0F);
-      byte high = (byte)((pyxel >> bit_depth) & 0x0F);
-
-      printf("%d %d ", high, low);
-      jvcr_poke_sprite(machine->ram, 2 * x, y, high);
-      jvcr_poke_sprite(machine->ram, 2 * x + 1, y, low);
+      filler(machine, row, x, y);
     }
     printf("\n");
   }
@@ -87,3 +102,4 @@ void import_sprites(Jvcr *machine, const char *path, ptr_t offset) {
   free(row_pointers);
   fclose(file);
 }
+

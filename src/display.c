@@ -37,6 +37,9 @@ void set_pallet(Jvcr *machine, byte color, byte red, byte green, byte blue) {
  * @param machine
  */
 void set_default_pallet(Jvcr *machine) {
+  for (byte i = 0; i < PALETTE_SIZE; i++) {
+    set_pallet(machine, i, 0, 0, 0);
+  }
   set_pallet(machine, 0, 0, 0, 0);
   set_pallet(machine, 1, 29, 43, 83);
   set_pallet(machine, 2, 126, 37, 83);
