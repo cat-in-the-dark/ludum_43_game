@@ -1,7 +1,7 @@
 import jvcr
 
-from build_scene import ItemsStack
 from inputs import InputEx
+from items_stack import ItemsStack
 from levels import LEVELS
 from pointer import Pointer
 
