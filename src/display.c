@@ -149,11 +149,20 @@ void set_default_font(Jvcr *machine) {
   }
 }
 
-void spr(Jvcr *machine, i32 screen_x, i32 screen_y, i32 sheet_x, i32 sheet_y, u32 width, u32 height, byte flip, byte rotate, byte scale) {
-  for (u32 i = 0; i < width; i++) {
-    for (u32 j = 0; j < height; j++) {
-      u32 ptr = SPRITES_START + (sheet_y +j) * SPRITE_BOX_WIDTH + (sheet_x + i);
-      byte color = jvcr_peek(machine->ram, ptr);
+void spr(Jvcr *machine,
+         i32 screen_x,
+         i32 screen_y,
+         i32 sheet_x,
+         i32 sheet_y,
+         u32 width,
+         u32 height,
+         byte flip,
+         byte rotate,
+         byte scale
+) {
+  for (u32 j = 0; j < height; j++) {
+    for (u32 i = 0; i < width; i++) {
+      byte color = jvcr_peek_sprite(machine->ram, sheet_x + i, sheet_y + j);
       pset(machine, screen_x + i, screen_y + j, color);
     }
   }

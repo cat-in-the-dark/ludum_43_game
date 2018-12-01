@@ -141,7 +141,8 @@ int main(void) {
   set_default_font(machine);
   rendering_init(machine);
   input_init(machine);
-//  import_sprites(machine, "test.png", 0);
+//  import_sprites(machine, "/Users/ilya/Downloads/zhopa_16_tsvetov.png", 0);
+//  import_sprites(machine, "/Users/ilya/Desktop/man.png", 0);
   RunLoop(machine);
   rendering_stop(machine);
   DestroyJvcr(machine);

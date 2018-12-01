@@ -46,6 +46,11 @@ void import_sprites(Jvcr *machine, const char *path, ptr_t offset) {
     exit(-1);
   }
 
+  if (bit_depth != 4) {
+    printf("Image should be with bit_depth=4\n");
+    exit(-1);
+  }
+
   png_bytepp row_pointers = (png_bytep *) malloc(sizeof(png_bytep) * height);
   size_t row_size = png_get_rowbytes(png, info);
   printf("row_size = %lu\n", row_size);
@@ -57,33 +62,23 @@ void import_sprites(Jvcr *machine, const char *path, ptr_t offset) {
   }
   png_read_image(png, row_pointers);
 
-
   printf("\n======================\n");
   byte palette[256];
   for (int i = 0; i < 256; i++) palette[i] = 255;
-  byte index = 0;
-  for (png_uint_32 y = 0; y < height; y++) {
+  for (u32 y = 0; y < height; y++) {
     png_bytep row = row_pointers[y];
-    for (png_uint_32 x = 0; x < width; x++) {
+    for (u32 x = 0; x < row_size; x++) {
       png_byte pyxel = row[x];
-      if (palette[pyxel] == 255) {
-        printf("%d = %d\n", pyxel, index);
-        palette[pyxel] = index;
-        index++;
-      }
-    }
-  }
-  printf("======================\n");
+      byte low = (byte)(pyxel & 0x0F);
+      byte high = (byte)((pyxel >> bit_depth) & 0x0F);
 
-  for (png_uint_32 y = 0; y < height; y++) {
-    png_bytep row = row_pointers[y];
-    for (png_uint_32 x = 0; x < width; x++) {
-      png_byte pyxel = row[x];
-      jvcr_poke(machine->ram, SPRITES_START + offset + width * x + y, pyxel);
-      printf("%2d ", pyxel);
+      printf("%d %d ", high, low);
+      jvcr_poke_sprite(machine->ram, 2 * x, y, high);
+      jvcr_poke_sprite(machine->ram, 2 * x + 1, y, low);
     }
     printf("\n");
   }
+  printf("======================\n");
 
   printf("SUCCESS. File was read %s\n", path);
   for (png_uint_32 y = 0; y < height; y++) {
