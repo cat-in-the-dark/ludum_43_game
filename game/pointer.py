@@ -21,6 +21,12 @@ class Pointer:
         self.MIN_TOP = 16
         self.MAX_BOTTOM = jvcr.DISPLAY_HEIGHT - self.height - 16
 
+    def get_x(self):
+        return (self.x - self.MIN_LEFT) // self.width
+
+    def get_y(self):
+        return (self.y - self.MIN_TOP) // self.height
+
     def update(self, dt):
         self.timer += dt * self.timer_dir
         if self.timer > 0.5:

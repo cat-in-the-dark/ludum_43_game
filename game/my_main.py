@@ -15,11 +15,13 @@ def init():
     setup.setup_palette()
     setup.setup_sprites()
 
+    storage = {}
+
     title = TitleScene()
-    build = BuildScene(lambda t, x, y: print("Save {} {}x{}".format(t, x, y)))
-    eval_ = EvalScene()
-    over = GameOverScene()
-    win = GameWinScene()
+    build = BuildScene(storage)
+    eval_ = EvalScene(storage)
+    over = GameOverScene(storage)
+    win = GameWinScene(storage)
 
     rm.add_route(title, build, "next")
     rm.add_route(build, eval_, "next")
@@ -27,6 +29,9 @@ def init():
     rm.add_route(eval_, win, "win")
     rm.add_route(over, title, "next")
     rm.add_route(win, title, "next")
+
+    # FOR TESTING
+    rm.add_route(build, build, "next")
 
     rm.start(title)
 

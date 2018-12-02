@@ -16,5 +16,5 @@ class TitleScene(Scene):
 
         if self.timer > 2:
             return "next"
-        if self.timer > 0.5 and jvcr.btn(jvcr.BTN_A, 0):
+        if self.timer > 0.5 and jvcr.btn(jvcr.BTN_B, 0):
             return "next"
