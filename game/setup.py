@@ -1,24 +1,36 @@
+import random
+
 import jvcr
+
+colors = [
+    (241, 52, 146, 0),
+    (0, 0, 0, 0xFF),
+    (40, 11, 38, 0xFF),
+    (26, 17, 46, 0xFF),
+    (47, 19, 22, 0xFF),
+    (27, 24, 83, 0xFF),
+    (143, 23, 103, 0xFF),
+    (180, 35, 19, 0xFF),
+    (70, 91, 231, 0xFF),
+    (175, 93, 35, 0xFF),
+    (244, 104, 11, 0xFF),
+    (244, 93, 146, 0xFF),
+    (42, 192, 242, 0xFF),
+    (87, 197, 43, 0xFF),
+    (254, 181, 139, 0xFF),
+    (244, 192, 71, 0xFF),
+    (255, 253, 240, 0xFF)
+]
 
 
 def setup_palette():
-    jvcr.set_pallet(0, 21, 10, 31)
-    jvcr.set_pallet(1, 0, 0, 0)
-    jvcr.set_pallet(2, 244, 104, 11)
-    jvcr.set_pallet(3, 180, 35, 19)
-    jvcr.set_pallet(4, 244, 192, 71)
-    jvcr.set_pallet(5, 42, 192, 242)
-    jvcr.set_pallet(6, 40, 11, 38)
-    jvcr.set_pallet(7, 244, 93, 146)
-    jvcr.set_pallet(8, 175, 93, 35)
-    jvcr.set_pallet(9, 143, 23, 103)
-    jvcr.set_pallet(10, 70, 91, 231)
-    jvcr.set_pallet(11, 40, 11, 38)
-    jvcr.set_pallet(12, 26, 17, 46)
-    jvcr.set_pallet(13, 47, 19, 22)
-    jvcr.set_pallet(14, 254, 181, 139)
-    jvcr.set_pallet(15, 87, 197, 43)
-    jvcr.set_pallet(16, 255, 253, 240)
+    for i, rgb in enumerate(colors):
+        jvcr.set_pallet(i, *rgb)
+
+
+def suffle_palette():
+    random.shuffle(colors)
+    setup_palette()
 
 
 def setup_sprites():

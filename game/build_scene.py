@@ -5,6 +5,7 @@ from items_stack import ItemsStack
 from levels import LEVELS, store_tile, setup_tiles, get_tiles
 from pointer import Pointer
 from route_machine import Scene
+from setup import setup_palette, suffle_palette
 
 
 class BuildScene(Scene):
@@ -28,15 +29,10 @@ class BuildScene(Scene):
 
     def update(self, dt):
         jvcr.spr(32, 0, 0, 0, 240, 144, 0, 0, 0)
-        self.pointer.update(dt)
         self.inp.update(dt)
         self.stack.update(dt)
-
-        for j, line in enumerate(get_tiles(self.storage)):
-            for i, tile in enumerate(line):
-                x = i * tile.width + self.MIN_LEFT
-                y = j * tile.height + self.MIN_TOP
-                tile.draw(x, y, dt)
+        self.draw_tiles(dt)
+        self.pointer.update(dt)
 
         if self.inp.btnp(jvcr.BTN_UP, 0):
             self.pointer.move_up()
@@ -48,6 +44,15 @@ class BuildScene(Scene):
             self.pointer.move_right()
         if self.inp.btnp(jvcr.BTN_A, 0):
             return self._put_item()
+        if self.inp.btnp(jvcr.BTN_X,0):
+            suffle_palette()
+
+    def draw_tiles(self, dt):
+        for j, line in enumerate(get_tiles(self.storage)):
+            for i, tile in enumerate(line):
+                x = i * tile.width + self.MIN_LEFT
+                y = j * tile.height + self.MIN_TOP
+                tile.draw(x, y, dt)
 
     def on_exit(self):
         self.level += 1

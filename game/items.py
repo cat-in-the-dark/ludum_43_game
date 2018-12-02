@@ -33,10 +33,10 @@ class ExitItem(Item):
         super().__init__()
         self.type = ItemType.EXIT_POINT
         self.animation = Animation(sprites=(
-            (18 * 16, 28 * 16),
-            (19 * 16, 28 * 16),
-            (20 * 16, 28 * 16),
-            (21 * 16, 28 * 16)
+            (18 * 16, 27 * 16),
+            (19 * 16, 27 * 16),
+            (20 * 16, 27 * 16),
+            (21 * 16, 27 * 16)
         ), width=16, height=16, speed=10)
 
     def draw(self, x, y, dt):

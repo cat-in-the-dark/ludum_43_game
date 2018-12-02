@@ -106,7 +106,8 @@ PyObject *jvcr_set_pallet(PyObject *self, PyObject *args) {
   byte red;
   byte green;
   byte blue;
-  PyArg_ParseTuple(args, "BBBB", &color, &red, &green, &blue);
-  set_pallet(machine, color, red, green, blue);
+  byte alpha;
+  PyArg_ParseTuple(args, "BBBBB", &color, &red, &green, &blue, &alpha);
+  set_pallet(machine, color, red, green, blue, alpha);
   Py_RETURN_NONE;
 }

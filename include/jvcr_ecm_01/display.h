@@ -32,7 +32,7 @@ void circfill(Jvcr *machine, i32 x, i32 y, u32 r, byte color); // draw filled ci
 void rect(Jvcr *machine, i32 x, i32 y, u32 w, u32 h, byte color); // draw rectangle
 void rectfill(Jvcr *machine, i32 x, i32 y, u32 w, u32 h, byte color); // draw filled rectangle
 
-void set_pallet(Jvcr *machine, byte color, byte red, byte green, byte blue);
+void set_pallet(Jvcr *machine, byte color, byte red, byte green, byte blue, byte alpha);
 void set_default_pallet(Jvcr *machine);
 
 void set_font(Jvcr *machine, char symbol, Font font);

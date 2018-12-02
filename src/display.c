@@ -29,7 +29,7 @@ byte pget(Jvcr *machine, i32 x, i32 y) {
   return jvcr_peek(machine->ram, address);
 }
 
-void set_pallet(Jvcr *machine, byte color, byte red, byte green, byte blue) {
+void set_pallet(Jvcr *machine, byte color, byte red, byte green, byte blue, byte alpha) {
   if (color > PALETTE_LEN) {
     printf("WARNING: cannot set color with id=%d, out of bound=[0, %d]\n", color, PALETTE_LEN);
     return;
@@ -39,7 +39,7 @@ void set_pallet(Jvcr *machine, byte color, byte red, byte green, byte blue) {
   jvcr_poke(machine->ram, index, red);
   jvcr_poke(machine->ram, index + 1, green);
   jvcr_poke(machine->ram, index + 2, blue);
-  jvcr_poke(machine->ram, index + 3, 0xFF);
+  jvcr_poke(machine->ram, index + 3, alpha);
 }
 
 /**
@@ -48,24 +48,24 @@ void set_pallet(Jvcr *machine, byte color, byte red, byte green, byte blue) {
  */
 void set_default_pallet(Jvcr *machine) {
   for (byte i = 0; i < PALETTE_LEN; i++) {
-    set_pallet(machine, i, 0, 0, 0);
+    set_pallet(machine, i, 0, 0, 0, 0xFF);
   }
-  set_pallet(machine, 0, 0, 0, 0);
-  set_pallet(machine, 1, 29, 43, 83);
-  set_pallet(machine, 2, 126, 37, 83);
-  set_pallet(machine, 3, 0, 135, 81);
-  set_pallet(machine, 4, 171, 82, 54);
-  set_pallet(machine, 5, 95, 87, 79);
-  set_pallet(machine, 6, 194, 195, 199);
-  set_pallet(machine, 7, 255, 241, 232);
-  set_pallet(machine, 8, 255, 0, 77);
-  set_pallet(machine, 9, 255, 163, 0);
-  set_pallet(machine, 10, 255, 240, 36);
-  set_pallet(machine, 11, 0, 231, 86);
-  set_pallet(machine, 12, 41, 173, 255);
-  set_pallet(machine, 13, 131, 118, 156);
-  set_pallet(machine, 14, 255, 119, 168);
-  set_pallet(machine, 15, 255, 204, 170);
+  set_pallet(machine, 0, 0, 0, 0, 0xFF);
+  set_pallet(machine, 1, 29, 43, 83, 0xFF);
+  set_pallet(machine, 2, 126, 37, 83, 0xFF);
+  set_pallet(machine, 3, 0, 135, 81, 0xFF);
+  set_pallet(machine, 4, 171, 82, 54, 0xFF);
+  set_pallet(machine, 5, 95, 87, 79, 0xFF);
+  set_pallet(machine, 6, 194, 195, 199, 0xFF);
+  set_pallet(machine, 7, 255, 241, 232, 0xFF);
+  set_pallet(machine, 8, 255, 0, 77, 0xFF);
+  set_pallet(machine, 9, 255, 163, 0, 0xFF);
+  set_pallet(machine, 10, 255, 240, 36, 0xFF);
+  set_pallet(machine, 11, 0, 231, 86, 0xFF);
+  set_pallet(machine, 12, 41, 173, 255, 0xFF);
+  set_pallet(machine, 13, 131, 118, 156, 0xFF);
+  set_pallet(machine, 14, 255, 119, 168, 0xFF);
+  set_pallet(machine, 15, 255, 204, 170, 0xFF);
 }
 
 RGBA get_rgba(Jvcr *machine, byte color) {
@@ -184,7 +184,7 @@ void spr(Jvcr *machine,
       if (x > DISPLAY_WIDTH || y > DISPLAY_HEIGHT || x < 0 || y < 0) continue;
 
       // It's alpha chanel. Nothing to do
-      if (rgba.red == 0 && rgba.blue == 0 && rgba.green == 0) continue;
+      if (rgba.alpha == 0) continue;
 
       pset(machine, x, y, color);
     }
