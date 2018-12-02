@@ -52,9 +52,8 @@ def setup_tiles(storage, level=0):
             storage['room'][i][j] = item
 
 
-def store_tile(storage, type_, x, y):
-    print("type={} x={} y={}".format(type_, x, y))
-    item = items.ITEMS_MAPPING[type_]()
+def store_tile(storage, item, x, y):
+    print("type={} x={} y={}".format(item.type, x, y))
     storage['room'][y][x] = item
 
 

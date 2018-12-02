@@ -1,18 +1,22 @@
 import jvcr
 
 from animation import Animation
-from item import ItemType
+
+import drawables as dw
+from item_type import ItemType
+import random
+
+_BLOCK_ITEM_DRAWABLES = [dw.Table, dw.WeightBell, dw.Cupboard, dw.Gnome, dw.PS4, dw.Wakuum, dw.Cat]
 
 
 class Item:
     def __init__(self) -> None:
         self.width = 16
         self.height = 16
-        self._color = 0
         self.type = -1
 
     def draw(self, x, y, dt):
-        jvcr.rectfill(x, y, self.width, self.height, self._color)
+        pass
 
     def __repr__(self) -> str:
         return self.__class__.__name__
@@ -46,11 +50,12 @@ class ExitItem(Item):
 class BlockItem(Item):
     def __init__(self) -> None:
         super().__init__()
-        self._color = 4
         self.type = ItemType.BLOCK
+        i = random.randint(0, len(_BLOCK_ITEM_DRAWABLES) -1)
+        self.drawable = _BLOCK_ITEM_DRAWABLES[i]()
 
     def draw(self, x, y, dt):
-        jvcr.spr(x, y, 4*16, 46 * 16, 16, 16, 0, 0, 0)
+        self.drawable.draw(x, y, dt)
 
 
 class ReverseItem(Item):

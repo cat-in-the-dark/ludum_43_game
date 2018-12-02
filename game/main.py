@@ -1,6 +1,6 @@
 import jvcr
-from item import ItemType
 
+from item_type import ItemType
 
 UNIVERSE_HEIGHT = 7
 UNIVERSE_WIDTH  = 12

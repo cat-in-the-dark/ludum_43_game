@@ -1,4 +1,5 @@
 from abc import abstractmethod
+
 from jvcr import spr
 
 from animation import Animation
@@ -45,3 +46,65 @@ class LoseDrawable(Drawable):
 
     def draw(self, x, y, dt):
         self.animation.draw(dt, x, y)
+
+
+class Table(Drawable):
+    def draw(self, x, y, dt):
+        spr(x, y, 4 * 16, 46 * 16, 16, 16, 0, 0, 0)
+
+
+class Sofa(Drawable):
+    def __init__(self) -> None:
+        super().__init__()
+        self.width = 32
+
+    def draw(self, x, y, dt):
+        spr(x, y, 5 * 16, 46 * 16, 32, 16, 0, 0, 0)
+
+
+class WeightBell(Drawable):
+    def draw(self, x, y, dt):
+        spr(x, y, 7 * 16, 46 * 16, 16, 16, 0, 0, 0)
+
+
+class Cupboard(Drawable):
+    def draw(self, x, y, dt):
+        spr(x, y, 8 * 16, 46 * 16, 16, 16, 0, 0, 0)
+
+
+class Gnome(Drawable):
+    def draw(self, x, y, dt):
+        spr(x, y, 9 * 16, 46 * 16, 16, 16, 0, 0, 0)
+
+
+class PS4(Drawable):
+    def draw(self, x, y, dt):
+        spr(x, y, 10 * 16, 46 * 16, 16, 16, 0, 0, 0)
+
+
+class Wakuum(Drawable):
+    def draw(self, x, y, dt):
+        spr(x, y, 11 * 16, 46 * 16, 16, 16, 0, 0, 0)
+
+
+class Cat(Drawable):
+    def draw(self, x, y, dt):
+        spr(x, y, 12 * 16, 46 * 16, 16, 16, 0, 0, 0)
+
+
+class LongBoard(Drawable):
+    def __init__(self) -> None:
+        super().__init__()
+        self.width = 32
+
+    def draw(self, x, y, dt):
+        spr(x, y, 13 * 16, 46 * 16, 32, 16, 0, 0, 0)
+
+
+class CompTable(Drawable):
+    def __init__(self) -> None:
+        super().__init__()
+        self.height = 32
+
+    def draw(self, x, y, dt):
+        spr(x, y, 15 * 16, 46 * 16, 16, 32, 0, 0, 0)

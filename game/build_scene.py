@@ -69,7 +69,7 @@ class BuildScene(Scene):
         print("PUT ITEM")
         item = self.stack.pop()
         if item is not None:
-            store_tile(self.storage, item.type, self.pointer.get_x(), self.pointer.get_y())
+            store_tile(self.storage, item, self.pointer.get_x(), self.pointer.get_y())
             return None
         else:
             return "next"
