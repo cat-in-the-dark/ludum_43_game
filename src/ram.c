@@ -22,7 +22,7 @@ void jvcr_poke(JvcrRam *machine, ptr_t address, byte value) {
   machine->memory[address] = value;
 }
 
-byte jvcr_peek_sprite(JvcrRam *machine, u32 x, u32 y) {
+byte jvcr_peek_sprite(JvcrRam *machine, i32 x, i32 y) {
   ptr_t address = SPRITES_START + y * SPRITE_BOX_WIDTH * SPRITE_WIDTH + x;
   if (address >= RAM_SIZE || address >= SPRITES_END) {
     printf("WARNING jvcr_peek_sprite out of range %d\n", address);
@@ -31,7 +31,7 @@ byte jvcr_peek_sprite(JvcrRam *machine, u32 x, u32 y) {
   return machine->memory[address];
 }
 
-void jvcr_poke_sprite(JvcrRam *machine, u32 x, u32 y, byte value) {
+void jvcr_poke_sprite(JvcrRam *machine, i32 x, i32 y, byte value) {
   ptr_t address = SPRITES_START + y * SPRITE_BOX_WIDTH * SPRITE_WIDTH + x;
   if (address >= RAM_SIZE || address >= SPRITES_END) {
     printf("WARNING jvcr_poke_sprite out of range %d\n", address);

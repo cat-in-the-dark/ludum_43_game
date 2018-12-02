@@ -9,14 +9,24 @@ void cls(Jvcr *machine, byte color) {
   jvcr_memset(machine->ram, SCREEN_START, color, SCREEN_SIZE);
 }
 
-void pset(Jvcr *machine, u32 x, u32 y, byte color) {
-  u32 index = x + y * DISPLAY_WIDTH;
-  jvcr_poke(machine->ram, index + SCREEN_START, color);
+void pset(Jvcr *machine, i32 x, i32 y, byte color) {
+  i32 index = x + y * DISPLAY_WIDTH;
+  ptr_t address = index + SCREEN_START;
+  if (address < SCREEN_START || address > SCREEN_END) {
+    printf("WARNING: pset(%d, %d) corrupts memory at %d != [%d, %d]\n", x, y, address, SCREEN_START, SCREEN_END);
+    return;
+  }
+  jvcr_poke(machine->ram, address, color);
 }
 
-byte pget(Jvcr *machine, u32 x, u32 y) {
-  u32 index = x + y * DISPLAY_WIDTH;
-  return jvcr_peek(machine->ram, index + SCREEN_START);
+byte pget(Jvcr *machine, i32 x, i32 y) {
+  i32 index = x + y * DISPLAY_WIDTH;
+  ptr_t address = index + SCREEN_START;
+  if (address < SCREEN_START || address > SCREEN_END) {
+    printf("WARNING: pset access wrong memory at %d != [%d, %d]\n", address, SCREEN_START, SCREEN_END);
+    return 0;
+  }
+  return jvcr_peek(machine->ram, address);
 }
 
 void set_pallet(Jvcr *machine, byte color, byte red, byte green, byte blue) {
@@ -163,10 +173,29 @@ void spr(Jvcr *machine,
          byte rotate,
          byte scale
 ) {
-  for (u32 j = 0; j < height; j++) {
-    for (u32 i = 0; i < width; i++) {
+  for (i32 j = 0; j < height; j++) {
+    for (i32 i = 0; i < width; i++) {
       byte color = jvcr_peek_sprite(machine->ram, sheet_x + i, sheet_y + j);
-      pset(machine, screen_x + i, screen_y + j, color);
+      RGBA rgba = get_rgba(machine, color);
+      i32 x = screen_x + i;
+      i32 y = screen_y + j;
+
+      // skipping this frame
+      if (x > DISPLAY_WIDTH || y > DISPLAY_HEIGHT || x < 0 || y < 0) continue;
+
+      // It's alpha chanel. Nothing to do
+      if (rgba.red == 0 && rgba.blue == 0 && rgba.green == 0) continue;
+
+      pset(machine, x, y, color);
     }
   }
+}
+
+void check_palette(Jvcr *machine) {
+  printf(">>>>> PALETTE CHECK START\n");
+  for (byte color = 0; color < PALETTE_LEN; color++) {
+    RGBA rgba = get_rgba(machine, color);
+    printf("      %d = %d %d %d\n", color, rgba.red, rgba.green, rgba.blue);
+  }
+  printf(">>>>> PALETTE CHECK END\n");
 }

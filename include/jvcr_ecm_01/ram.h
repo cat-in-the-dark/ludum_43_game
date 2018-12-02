@@ -9,7 +9,7 @@ void jvcr_memset(JvcrRam *machine, ptr_t dest, byte value, u32 len); // set len 
 byte jvcr_peek(JvcrRam *machine, ptr_t address); // read a byte in ram address
 void jvcr_poke(JvcrRam *machine, ptr_t address, byte value); // write a byte in ram address
 
-byte jvcr_peek_sprite(JvcrRam *machine, u32 x, u32 y);
-void jvcr_poke_sprite(JvcrRam *machine, u32 x, u32 y, byte value);
+byte jvcr_peek_sprite(JvcrRam *machine, i32 x, i32 y);
+void jvcr_poke_sprite(JvcrRam *machine, i32 x, i32 y, byte value);
 
 #endif //JVCR_ECM_01_API_H
