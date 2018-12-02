@@ -22,4 +22,4 @@ def setup_palette():
 
 
 def setup_sprites():
-    jvcr.import_sprites("assets/background1.png", 0)
+    jvcr.import_sprites("assets/atlas0.png", 0)
