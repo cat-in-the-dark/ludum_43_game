@@ -108,3 +108,74 @@ class CompTable(Drawable):
 
     def draw(self, x, y, dt):
         spr(x, y, 15 * 16, 46 * 16, 16, 32, 0, 0, 0)
+
+
+class PlayerGoLeft(Drawable):
+    def __init__(self) -> None:
+        super().__init__()
+        self.animation = Animation(sprites=(
+            (20 * 16, 36 * 16),
+            (21 * 16, 36 * 16),
+            (22 * 16, 36 * 16),
+            (23 * 16, 36 * 16),
+            (24 * 16, 36 * 16),
+            (24 * 16, 36 * 16),
+            (26 * 16, 36 * 16),
+            (27 * 16, 36 * 16),
+            (28 * 16, 36 * 16),
+            (29 * 16, 36 * 16),
+            (30 * 16, 36 * 16),
+            (31 * 16, 36 * 16),
+        ), width=16, height=32, speed=12, cycle=True)
+
+    def draw(self, x, y, dt):
+        self.animation.draw(dt, x, y)
+
+
+class PlayerGoRight(Drawable):
+    def __init__(self) -> None:
+        super().__init__()
+        self.animation = Animation(sprites=(
+            (20 * 16, 38 * 16),
+            (21 * 16, 38 * 16),
+            (22 * 16, 38 * 16),
+            (23 * 16, 38 * 16),
+            (24 * 16, 38 * 16),
+            (24 * 16, 38 * 16),
+            (26 * 16, 38 * 16),
+            (27 * 16, 38 * 16),
+            (28 * 16, 38 * 16),
+            (29 * 16, 38 * 16),
+            (30 * 16, 38 * 16),
+            (31 * 16, 38 * 16),
+        ), width=16, height=32, speed=12, cycle=True)
+
+    def draw(self, x, y, dt):
+        self.animation.draw(dt, x, y)
+
+class PlayerGoUp(Drawable):
+    def __init__(self) -> None:
+        super().__init__()
+        self.animation = Animation(sprites=(
+            (20 * 16, 40 * 16),
+            (21 * 16, 40 * 16),
+            (22 * 16, 40 * 16),
+            (23 * 16, 40 * 16),
+            (24 * 16, 40 * 16),
+        ), width=16, height=32, speed=8, cycle=True)
+
+    def draw(self, x, y, dt):
+        self.animation.draw(dt, x, y)
+
+class PlayerGoDown(Drawable):
+    def __init__(self) -> None:
+        super().__init__()
+        self.animation = Animation(sprites=(
+            (20 * 16, 42 * 16),
+            (21 * 16, 42 * 16),
+            (22 * 16, 42 * 16),
+            (26 * 16, 40 * 16),
+        ), width=16, height=32, speed=6, cycle=True)
+
+    def draw(self, x, y, dt):
+        self.animation.draw(dt, x, y)

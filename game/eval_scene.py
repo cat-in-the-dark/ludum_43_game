@@ -1,23 +1,23 @@
+from drawables import PlayerGoLeft, PlayerGoRight, PlayerGoUp, PlayerGoDown
 from levels import get_tiles
 from main import Ctx, Player, Direction
 from route_machine import Scene
-
+import jvcr
 
 class EvalScene(Scene):
     def __init__(self, storage) -> None:
-        self.ctx: Ctx = None
         self.storage = storage
+        self.player_left = PlayerGoLeft()
+        self.player_right = PlayerGoRight()
+        self.player_up = PlayerGoUp()
+        self.player_down = PlayerGoDown()
 
     def on_activate(self):
-        player = Player(x=0, y=0, dir=Direction.UP)
-        room = get_tiles(self.storage)
-        self.ctx = Ctx(room, player)
+        pass
 
     def update(self, dt) -> str:
-        # jvcr.print("GAME", 1, 1, 8)
-        #
-        # if jvcr.btn(jvcr.BTN_UP, 0):
-        #     return "win"
-        # if jvcr.btn(jvcr.BTN_DOWN, 0):
-        #     return "lose"
-        self.ctx.render()
+        jvcr.cls(5)
+        self.player_left.draw(0, 0, dt)
+        self.player_right.draw(16, 0, dt)
+        self.player_up.draw(32, 0, dt)
+        self.player_down.draw(48, 0, dt)
