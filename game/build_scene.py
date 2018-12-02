@@ -20,10 +20,10 @@ class BuildScene(Scene):
 
     def on_activate(self):
         if self.level >= len(LEVELS):
-            print("Rest levels")
+            print("Reset levels")
             self.level = 0
         print("LEVEL {}".format(self.level))
-        self.stack = ItemsStack(LEVELS[self.level]['stack'])
+        self.stack = ItemsStack(self.level)
         setup_tiles(self.storage, self.level)
 
     def update(self, dt):
@@ -32,8 +32,8 @@ class BuildScene(Scene):
         self.inp.update(dt)
         self.stack.update(dt)
 
-        for i, line in enumerate(get_tiles(self.storage)):
-            for j, tile in enumerate(line):
+        for j, line in enumerate(get_tiles(self.storage)):
+            for i, tile in enumerate(line):
                 x = i * tile.width + self.MIN_LEFT
                 y = j * tile.height + self.MIN_TOP
                 tile.draw(x, y, dt)
@@ -53,6 +53,7 @@ class BuildScene(Scene):
         self.level += 1
 
     def _put_item(self):
+        print("PUT ITEM")
         item = self.stack.pop()
         if item is not None:
             store_tile(self.storage, item.type, self.pointer.get_x(), self.pointer.get_y())

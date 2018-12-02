@@ -10,10 +10,12 @@ class Item:
         self.height = 16
         self._color = 0
         self.type = -1
-        print("Created {}".format(self.__class__.__name__))
 
     def draw(self, x, y, dt):
         jvcr.rectfill(x, y, self.width, self.height, self._color)
+
+    def __repr__(self) -> str:
+        return self.__class__.__name__
 
 
 class FloorItem(Item):

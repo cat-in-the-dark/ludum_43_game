@@ -1,9 +1,11 @@
-from items import Item
+from items import Item, ITEMS_MAPPING
+from levels import LEVELS
 
 
 class ItemsStack:
-    def __init__(self, items):
-        self._items = [i() for i in items]
+    def __init__(self, level):
+        items = LEVELS[level]['stack']
+        self._items = [ITEMS_MAPPING[t]() for t in items]
         self.draw_limit = 5
 
     def update(self, dt):

@@ -2,7 +2,19 @@ import items
 
 LEVELS = [
     {
-        'stack': [items.BlockItem, items.BlockItem, items.ReverseItem, items.RandTurnItem, items.ReverseItem],
+        'stack': [1, 2, 1, 2, 3, 2, 1, 1],
+        'room': [
+            [0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3]
+        ]
+    },
+    {
+        'stack': [2, 3, 3, 2, 3, 2, 1, 1],
         'room': [
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -14,19 +26,7 @@ LEVELS = [
         ]
     },
     {
-        'stack': [items.BlockItem, items.ReverseItem, items.ReverseItem, items.ReverseItem, items.BlockItem],
-        'room': [
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        ]
-    },
-    {
-        'stack': [items.RandTurnItem, items.RandTurnItem, items.RandTurnItem, items.RandTurnItem, items.BlockItem],
+        'stack': [3, 3, 3, 3, 3, 3, 3, 3],
         'room': [
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -41,16 +41,18 @@ LEVELS = [
 
 
 def setup_tiles(storage, level=0):
-    storage['room'] = [[None] * 12] * 7
-    for i in range(12):
-        for j in range(7):
-            t = LEVELS[level]['room'][j][i]
-            storage['room'][j][i] = items.ITEMS_MAPPING[t]()
+    storage['room'] = [[None] * 12 for _ in range(7)]
+    for i, line in enumerate(LEVELS[level]['room']):
+        for j, t in enumerate(line):
+            item = items.ITEMS_MAPPING[t]()
+            print("Created {} [{},{}]".format(item, i, j))
+            storage['room'][i][j] = item
 
 
 def store_tile(storage, type_, x, y):
-    print("{} {} {}".format(type_, x, y))
-    storage['room'][x][y] = items.ITEMS_MAPPING[type_]()
+    print("type={} x={} y={}".format(type_, x, y))
+    item = items.ITEMS_MAPPING[type_]()
+    storage['room'][y][x] = item
 
 
 def get_tiles(storage):
