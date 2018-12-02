@@ -4,15 +4,24 @@ from inputs import InputEx
 from items_stack import ItemsStack
 from levels import LEVELS
 from pointer import Pointer
+from route_machine import Scene
 
 
-class BuildScene:
+class BuildScene(Scene):
     def __init__(self, save_tile) -> None:
         self.pointer = Pointer(x=48, y=16)
         self.inp = InputEx()
-        self.stack = ItemsStack(LEVELS[0]['stack'])
         self.save_tile = save_tile
         self.finish = False
+        self.level = 0
+        self.stack: ItemsStack = None
+
+    def on_activate(self):
+        if self.level >= len(LEVELS):
+            print("Rest levels")
+            self.level = 0
+        print("LEVEL {}".format(self.level))
+        self.stack = ItemsStack(LEVELS[self.level]['stack'])
 
     def update(self, dt):
         jvcr.spr(32, 0, 0, 0, 240, 144, 0, 0, 0)
@@ -29,12 +38,15 @@ class BuildScene:
         if self.inp.btnp(jvcr.BTN_RIGHT, 0):
             self.pointer.move_right()
         if self.inp.btnp(jvcr.BTN_A, 0):
-            self._put_item()
+            return self._put_item()
+
+    def on_exit(self):
+        self.level += 1
 
     def _put_item(self):
         item = self.stack.pop()
         if item is not None:
             self.save_tile(item.type, self.pointer.x, self.pointer.y)
+            return None
         else:
-            print("Nothing to put")
-            self.finish = True
+            return "next"

@@ -11,11 +11,11 @@ class ItemsStack:
     def top(self):
         return self._items[0]
 
-    def isEmpty(self):
+    def is_empty(self):
         return len(self._items) < 1
 
     def pop(self):
-        if not self.isEmpty():
+        if not self.is_empty():
             return self._items.pop(0)
         else:
             return None
