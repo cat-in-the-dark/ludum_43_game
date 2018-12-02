@@ -33,10 +33,10 @@ class ExitItem(Item):
         super().__init__()
         self.type = ItemType.EXIT_POINT
         self.animation = Animation(sprites=(
-            (18 * 16, 27 * 16),
-            (19 * 16, 27 * 16),
-            (20 * 16, 27 * 16),
-            (21 * 16, 27 * 16)
+            (0, 46 * 16),
+            (1 * 16, 46 * 16),
+            (2 * 16, 46 * 16),
+            (3 * 16, 46 * 16)
         ), width=16, height=16, speed=10)
 
     def draw(self, x, y, dt):
@@ -50,7 +50,7 @@ class BlockItem(Item):
         self.type = ItemType.BLOCK
 
     def draw(self, x, y, dt):
-        jvcr.spr(x, y, 0, 27 * 16, 16, 16, 0, 0, 0)
+        jvcr.spr(x, y, 4*16, 46 * 16, 16, 16, 0, 0, 0)
 
 
 class ReverseItem(Item):
@@ -60,7 +60,7 @@ class ReverseItem(Item):
         self.type = ItemType.REVERSE
 
     def draw(self, x, y, dt):
-        jvcr.spr(x, y, 16 * 16, 28 * 16, 16, 16, 0, 0, 0)
+        jvcr.spr(x, y, 20 * 16, 47 * 16, 16, 16, 0, 0, 0)
 
 
 class RandTurnItem(Item):
@@ -70,7 +70,7 @@ class RandTurnItem(Item):
         self.type = ItemType.RND_TURN
 
     def draw(self, x, y, dt):
-        jvcr.spr(x, y, 14 * 16, 28 * 16, 16, 16, 0, 0, 0)
+        jvcr.spr(x, y, 18 * 16, 47 * 16, 16, 16, 0, 0, 0)
 
 
 ITEMS_MAPPING = {

@@ -12,9 +12,9 @@ class TitleScene(Scene):
 
     def update(self, dt) -> str:
         self.timer += dt
-        jvcr.print("CAT_IN_THE_DARK", 1, 1, 8)
+        jvcr.spr(0, 0, 0, 48*16, 256, 144, 0, 0, 0)
 
-        if self.timer > 2:
+        if self.timer > 10:
             return "next"
         if self.timer > 0.5 and jvcr.btn(jvcr.BTN_B, 0):
             return "next"

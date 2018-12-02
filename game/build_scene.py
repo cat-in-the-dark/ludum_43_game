@@ -1,11 +1,12 @@
 import jvcr
 
+from drawables import BatteryBarDrawable
 from inputs import InputEx
 from items_stack import ItemsStack
 from levels import LEVELS, store_tile, setup_tiles, get_tiles
 from pointer import Pointer
 from route_machine import Scene
-from setup import setup_palette, suffle_palette
+from setup import suffle_palette
 
 
 class BuildScene(Scene):
@@ -19,6 +20,8 @@ class BuildScene(Scene):
         self.MIN_LEFT = 48
         self.MIN_TOP = 16
 
+        self.bar_draw = BatteryBarDrawable()
+
     def on_activate(self):
         if self.level >= len(LEVELS):
             print("Reset levels")
@@ -28,11 +31,12 @@ class BuildScene(Scene):
         setup_tiles(self.storage, self.level)
 
     def update(self, dt):
-        jvcr.spr(32, 0, 0, 0, 240, 144, 0, 0, 0)
+        self.draw_back(dt)
         self.inp.update(dt)
         self.stack.update(dt)
         self.draw_tiles(dt)
         self.pointer.update(dt)
+        self.bar_draw.draw(0, 0, dt)
 
         if self.inp.btnp(jvcr.BTN_UP, 0):
             self.pointer.move_up()
@@ -44,7 +48,7 @@ class BuildScene(Scene):
             self.pointer.move_right()
         if self.inp.btnp(jvcr.BTN_A, 0):
             return self._put_item()
-        if self.inp.btnp(jvcr.BTN_X,0):
+        if self.inp.btnp(jvcr.BTN_X, 0):
             suffle_palette()
 
     def draw_tiles(self, dt):
@@ -53,6 +57,10 @@ class BuildScene(Scene):
                 x = i * tile.width + self.MIN_LEFT
                 y = j * tile.height + self.MIN_TOP
                 tile.draw(x, y, dt)
+
+    def draw_back(self, dt):
+        px, py = LEVELS[self.level]['spr']
+        jvcr.spr(32, 0, px, py, 240, 144, 0, 0, 0)
 
     def on_exit(self):
         self.level += 1
