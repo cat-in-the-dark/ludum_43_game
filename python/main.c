@@ -25,17 +25,26 @@ static void init(Jvcr *machine) {
 }
 
 int main(int argc, char *argv[]) {
-  if (argc < 2) {
-    fprintf(stderr, "Usage: python dir_path\n");
-    return 1;
+//  if (argc < 2) {
+//    fprintf(stderr, "Usage: python dir_path\n");
+//    return 1;
+//  }
+
+  char *root_path = ".";
+  char *name = "main";
+
+  if (argc >= 2) {
+    root_path = argv[1];
   }
 
-  char *name = "main";
+  if (argc >= 3) {
+    name = argv[2];
+  }
 
   PyImport_AppendInittab("jvcr", &PyInit_jvcr);
 
   Py_Initialize();
-  char *code = malloc(sizeof(char) * (33 + strlen(argv[1])));
+  char *code = malloc(sizeof(char) * (33 + strlen(root_path)));
   sprintf(code, "import sys\nsys.path.insert(0, \"%s\")", argv[1]);
   PyRun_SimpleString(code);
 
