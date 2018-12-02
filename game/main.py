@@ -4,6 +4,7 @@ from item import ItemType
 
 UNIVERSE_HEIGHT = 7
 UNIVERSE_WIDTH  = 12
+START_OFFSET = 7 * 16
 
 
 class Direction:
@@ -24,12 +25,12 @@ class Player:
         self.dir = dir
 
     def render(self):
-        jvcr.rectfill(self.x, self.y, 16, 16, 15)
+        jvcr.rectfill(self.x, START_OFFSET - self.y * 16, 16, 16, 15)
 
 
 class Ctx:
-    def __init__(self, player):
-        self.universe = [[ItemType.rnd() for _ in range(UNIVERSE_WIDTH)] for _ in range(UNIVERSE_HEIGHT)]
+    def __init__(self, universe, player):
+        self.universe = universe
         self.player = player
     
     def render(self):
@@ -37,17 +38,36 @@ class Ctx:
 
         for i, line in enumerate(self.universe):
             for j, item in enumerate(line):
-                render_item((j + 3) * 16, (i + 1) * 16, item)
+                render_item((j + 3) * 16, START_OFFSET - i * 16, item)
+
+    def next_pos(self):
+        x, y, dir = (self.player.x, self.player.y, self.player.dir)
+
+        if dir   == Direction.UP:
+            return x, y + 1 if y + 1 < UNIVERSE_HEIGHT else y
+        elif dir == Direction.DOWN:
+            return x, y - 1
+        elif dir == Direction.LEFT:
+            return x - 1, y
+        elif dir == Direction.RIGTH:
+            return x + 1, y
 
     def step(self):
-        if self.player.dir == Direction.UP:
-            pass
+        nx, ny = self.next_pos()
+        n_item = universe[nx][ny]
+
+        if n_item == ItemType.FLOOR:
+            self.player.x = nx
+            self.player.y = ny
 
     def is_game_end(self):
         return False
 
 
-ctx = Ctx(Player(x=0, y=0, dir=Direction.UP))
+#universe = [[ItemType.rnd() for _ in range(UNIVERSE_WIDTH)] for _ in range(UNIVERSE_HEIGHT)]
+universe = [[0] * 12] * 7
+player = Player(x=0, y=0, dir=Direction.UP)
+ctx = Ctx(universe, player)
 
 
 def update(dt):
