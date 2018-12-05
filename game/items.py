@@ -51,7 +51,7 @@ class BlockItem(Item):
     def __init__(self) -> None:
         super().__init__()
         self.type = ItemType.BLOCK
-        i = random.randint(0, len(_BLOCK_ITEM_DRAWABLES) -1)
+        i = random.randint(0, len(_BLOCK_ITEM_DRAWABLES) - 1)
         self.drawable = _BLOCK_ITEM_DRAWABLES[i]()
 
     def draw(self, x, y, dt):
@@ -61,7 +61,6 @@ class BlockItem(Item):
 class ReverseItem(Item):
     def __init__(self) -> None:
         super().__init__()
-        self._color = 5
         self.type = ItemType.REVERSE
 
     def draw(self, x, y, dt):
@@ -71,11 +70,20 @@ class ReverseItem(Item):
 class RandTurnItem(Item):
     def __init__(self) -> None:
         super().__init__()
-        self._color = 7
         self.type = ItemType.RND_TURN
 
     def draw(self, x, y, dt):
         jvcr.spr(x, y, 18 * 16, 47 * 16, 16, 16, 0, 0, 0)
+
+
+class PlayerItem(Item):
+    def __init__(self) -> None:
+        super().__init__()
+        self.type = ItemType.PLAYER
+        self.drawable = dw.PlayerGoDown()
+
+    def draw(self, x, y, dt):
+        self.drawable.draw(x, y-12, dt)
 
 
 ITEMS_MAPPING = {
@@ -83,5 +91,6 @@ ITEMS_MAPPING = {
     ItemType.BLOCK: BlockItem,
     ItemType.REVERSE: ReverseItem,
     ItemType.RND_TURN: RandTurnItem,
-    ItemType.EXIT_POINT: ExitItem
+    ItemType.EXIT_POINT: ExitItem,
+    ItemType.PLAYER: PlayerItem
 }

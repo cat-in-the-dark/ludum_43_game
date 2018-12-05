@@ -15,7 +15,6 @@ class BuildScene(Scene):
         self.pointer = Pointer(x=48, y=16)
         self.inp = InputEx()
         self.finish = False
-        self.level = 0
         self.stack: ItemsStack = None
         self.MIN_LEFT = 48
         self.MIN_TOP = 16
@@ -23,12 +22,12 @@ class BuildScene(Scene):
         self.bar_draw = BatteryBarDrawable()
 
     def on_activate(self):
-        if self.level >= len(LEVELS):
+        if self.storage['level'] >= len(LEVELS):
             print("Reset levels")
-            self.level = 0
-        print("LEVEL {}".format(self.level))
-        self.stack = ItemsStack(self.level)
-        setup_tiles(self.storage, self.level)
+            self.storage['level'] = 0
+        print("LEVEL {}".format(self.storage['level']))
+        self.stack = ItemsStack(self.storage['level'])
+        setup_tiles(self.storage, self.storage['level'])
 
     def update(self, dt):
         self.draw_back(dt)
@@ -59,11 +58,8 @@ class BuildScene(Scene):
                 tile.draw(x, y, dt)
 
     def draw_back(self, dt):
-        px, py = LEVELS[self.level]['spr']
+        px, py = LEVELS[self.storage['level']]['spr']
         jvcr.spr(32, 0, px, py, 240, 144, 0, 0, 0)
-
-    def on_exit(self):
-        self.level += 1
 
     def _put_item(self):
         print("PUT ITEM")

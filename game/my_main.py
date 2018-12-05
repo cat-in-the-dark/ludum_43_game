@@ -15,7 +15,9 @@ def init():
     setup.setup_palette()
     setup.setup_sprites()
 
-    storage = {}
+    storage = {
+        'level': 0
+    }
 
     title = TitleScene()
     build = BuildScene(storage)
@@ -31,7 +33,7 @@ def init():
     rm.add_route(win, title, "next")
 
     # FOR TESTING
-    rm.add_route(build, build, "next")
+    # rm.add_route(build, build, "next")
 
     rm.start(title)
 
