@@ -3,7 +3,7 @@ import jvcr
 from drawables import BatteryBarDrawable
 from inputs import InputEx
 from items_stack import ItemsStack
-from levels import LEVELS, store_tile, setup_tiles, get_tiles
+from levels import LEVELS, store_tile, setup_tiles, get_tiles, can_store_tile
 from pointer import Pointer
 from route_machine import Scene
 from setup import suffle_palette
@@ -62,10 +62,13 @@ class BuildScene(Scene):
         jvcr.spr(32, 0, px, py, 240, 144, 0, 0, 0)
 
     def _put_item(self):
-        print("PUT ITEM")
-        item = self.stack.pop()
-        if item is not None:
-            store_tile(self.storage, item, self.pointer.get_x(), self.pointer.get_y())
-            return None
+        if can_store_tile(self.storage, self.pointer.get_x(), self.pointer.get_y()):
+            print("PUT ITEM")
+            item = self.stack.pop()
+            if item is not None:
+                store_tile(self.storage, item, self.pointer.get_x(), self.pointer.get_y())
+            else:
+                return "next"
         else:
-            return "next"
+            print("Can't put item at [{}, {}]".format(self.pointer.get_x(), self.pointer.get_y()))
+        return None

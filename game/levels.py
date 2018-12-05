@@ -53,8 +53,12 @@ def setup_tiles(storage, level=0):
 
 
 def store_tile(storage, item, x, y):
-    print("type={} x={} y={}".format(item.type, x, y))
+    print("item={} x={} y={}".format(item, x, y))
     storage['room'][y][x] = item
+
+
+def can_store_tile(storage, x, y):
+    return storage['room'][y][x].type == 0
 
 
 def get_tiles(storage):
